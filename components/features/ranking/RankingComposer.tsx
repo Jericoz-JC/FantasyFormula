@@ -17,7 +17,7 @@ export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
   const [locked, setLocked] = useState(false);
 
   useEffect(() => {
-    // initialize from seed data (sorted by currentPosition)
+    // initialize from local seed data (sorted by currentPosition)
     const initial = [...(driversData as any).drivers]
       .sort((a: any, b: any) => a.position - b.position)
       .map((d: any) => ({
@@ -31,6 +31,8 @@ export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
           secondary: d.teamColors.secondary,
           name: d.teamColors.name,
         },
+        currentPosition: d.position,
+        points: d.points,
       }));
     setDrivers(initial);
   }, []);
@@ -71,8 +73,8 @@ export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
   }
 
   function handleClear() {
-    // Reset to alphabetical by driverId for a predictable reset
-    const reset = [...drivers].sort((a, b) => a.driverId.localeCompare(b.driverId));
+    // Reset to championship order (currentPosition ascending)
+    const reset = [...drivers].sort((a, b) => (a.currentPosition ?? 99) - (b.currentPosition ?? 99));
     setDrivers(reset);
   }
 
