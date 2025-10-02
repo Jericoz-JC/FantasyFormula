@@ -159,10 +159,10 @@
       "points": 27,
       "position": 10,
       "teamColors": {
-        "primary": "#FFFFFF",
-        "secondary": "#000000",
-        "accent": "#B6BABD",
-        "name": "White"
+        "primary": "#DC0000",
+        "secondary": "#B6BABD",
+        "accent": "#000000",
+        "name": "Red & Grey"
       }
     },
     {
@@ -224,10 +224,10 @@
       "points": 16,
       "position": 14,
       "teamColors": {
-        "primary": "#FFFFFF",
-        "secondary": "#0600EF",
-        "accent": "#DC0000",
-        "name": "White & Blue"
+        "primary": "#1E3A8A",
+        "secondary": "#DC0000",
+        "accent": "#FFFFFF",
+        "name": "Blue & Red"
       }
     },
     {
@@ -273,10 +273,10 @@
       "points": 10,
       "position": 17,
       "teamColors": {
-        "primary": "#FFFFFF",
-        "secondary": "#0600EF",
-        "accent": "#DC0000",
-        "name": "White & Blue"
+        "primary": "#1E3A8A",
+        "secondary": "#DC0000",
+        "accent": "#FFFFFF",
+        "name": "Blue & Red"
       }
     },
     {
@@ -290,10 +290,10 @@
       "points": 8,
       "position": 18,
       "teamColors": {
-        "primary": "#FFFFFF",
-        "secondary": "#000000",
-        "accent": "#B6BABD",
-        "name": "White"
+        "primary": "#DC0000",
+        "secondary": "#B6BABD",
+        "accent": "#000000",
+        "name": "Red & Grey"
       }
     },
     {
