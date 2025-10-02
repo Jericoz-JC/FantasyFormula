@@ -7,17 +7,17 @@ import { SubmitBar } from "./SubmitBar";
 import type { Driver } from "./DriverRow";
 
 interface RankingComposerProps {
-  raceId: string;
-  lockTime: string;
+  raceId: string | null;
+  lockTime?: string;
+  disableLock?: boolean;
 }
 
-export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
+export function RankingComposer({ raceId, lockTime, disableLock = false }: RankingComposerProps) {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [saving, setSaving] = useState(false);
   const [locked, setLocked] = useState(false);
 
   useEffect(() => {
-    // initialize from local seed data (sorted by currentPosition)
     const initial = [...(driversData as any).drivers]
       .sort((a: any, b: any) => a.position - b.position)
       .map((d: any) => ({
@@ -38,17 +38,25 @@ export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
   }, []);
 
   useEffect(() => {
+    if (disableLock) {
+      setLocked(false);
+      return;
+    }
+    if (!lockTime) {
+      setLocked(false);
+      return;
+    }
     const t = setInterval(() => {
       const now = new Date();
       setLocked(now > new Date(lockTime));
     }, 1000);
     return () => clearInterval(t);
-  }, [lockTime]);
+  }, [lockTime, disableLock]);
 
   const isValid = useMemo(() => drivers.length === 20, [drivers]);
 
   async function handleSubmit() {
-    if (!isValid || locked) return;
+    if (!isValid || locked || !raceId) return;
     setSaving(true);
     try {
       const payload = {
@@ -73,7 +81,6 @@ export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
   }
 
   function handleClear() {
-    // Reset to championship order (currentPosition ascending)
     const reset = [...drivers].sort((a, b) => (a.currentPosition ?? 99) - (b.currentPosition ?? 99));
     setDrivers(reset);
   }
@@ -82,7 +89,13 @@ export function RankingComposer({ raceId, lockTime }: RankingComposerProps) {
     <div className="space-y-3">
       <RankList drivers={drivers} onChange={setDrivers} />
       <div className="pb-24 md:pb-6" />
-      <SubmitBar isValid={isValid} isLocked={locked} onSubmit={handleSubmit} onClear={handleClear} onSaveDraft={() => {}} />
+      <SubmitBar
+        isValid={isValid}
+        isLocked={locked}
+        onSubmit={handleSubmit}
+        onClear={handleClear}
+        onSaveDraft={() => {}}
+      />
     </div>
   );
 }
