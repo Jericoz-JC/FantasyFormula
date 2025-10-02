@@ -10,10 +10,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  username  String   @unique
-  password  String
+  id           String   @id @default(uuid())
+  supabaseId   String   @unique  // Link to Supabase auth.users
+  email        String   @unique
+  username     String?  @unique
+  password     String?  // Optional now (for Google OAuth users)
+  
+  // Profile info (from Google)
+  displayName  String?
+  avatar       String?
+  
+  // Friend code system (5-character unique code)
+  friendCode   String   @unique
   
   // ELO and stats
   eloRating      Int      @default(1200)
@@ -21,7 +29,9 @@ model User {
   rankingsCount  Int      @default(0)
   
   // Relations
-  rankings  Ranking[]
+  rankings       Ranking[]
+  friends        Friendship[] @relation("UserFriends")
+  friendOf       Friendship[] @relation("FriendOf")
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,6 +39,23 @@ model User {
   @@index([eloRating])
   @@index([email])
   @@index([username])
+  @@index([supabaseId])
+  @@index([friendCode])
+}
+
+model Friendship {
+  id        String   @id @default(uuid())
+  userId    String
+  friendId  String
+  
+  user      User @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
+  friend    User @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, friendId])
+  @@index([userId])
+  @@index([friendId])
 }
 
 model Driver {
