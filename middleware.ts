@@ -1,38 +1,11 @@
-import { auth } from "@/lib/auth/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default auth((req) => {
-  const { pathname } = req.nextUrl;
-  
-  // Public routes that don't require authentication
-  const publicRoutes = [
-    "/",
-    "/api/auth/register",
-    "/api/auth/signin",
-    "/api/auth/callback",
-    "/api/auth/session",
-  ];
-
-  // Check if route is public
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
-  
-  // Allow public routes
-  if (isPublicRoute) {
-    return NextResponse.next();
-  }
-
-  // Protected API routes
-  if (pathname.startsWith("/api")) {
-    if (!req.auth && pathname !== "/api/auth/[...nextauth]") {
-      return NextResponse.json(
-        { error: "Unauthorized", message: "Authentication required" },
-        { status: 401 }
-      );
-    }
-  }
-
+// Lightweight middleware without NextAuth (reduces bundle size)
+export function middleware(request: NextRequest) {
+  // Allow all requests - authentication is handled in API routes
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [
