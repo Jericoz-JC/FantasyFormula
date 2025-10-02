@@ -1,0 +1,89 @@
+{
+  "races": [
+    {
+      "round": 18,
+      "name": "Singapore Grand Prix",
+      "location": "Marina Bay",
+      "country": "Singapore",
+      "circuit": "Marina Bay Street Circuit",
+      "date": "2025-10-05T13:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": false,
+      "circuitLength": 4.940,
+      "laps": 62
+    },
+    {
+      "round": 19,
+      "name": "United States Grand Prix",
+      "location": "Austin, Texas",
+      "country": "USA",
+      "circuit": "Circuit of The Americas",
+      "date": "2025-10-19T19:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": true,
+      "circuitLength": 5.513,
+      "laps": 56
+    },
+    {
+      "round": 20,
+      "name": "Mexico City Grand Prix",
+      "location": "Mexico City",
+      "country": "Mexico",
+      "circuit": "Autódromo Hermanos Rodríguez",
+      "date": "2025-10-26T19:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": false,
+      "circuitLength": 4.304,
+      "laps": 71
+    },
+    {
+      "round": 21,
+      "name": "São Paulo Grand Prix",
+      "location": "São Paulo",
+      "country": "Brazil",
+      "circuit": "Interlagos Circuit",
+      "date": "2025-11-09T17:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": true,
+      "circuitLength": 4.309,
+      "laps": 71
+    },
+    {
+      "round": 22,
+      "name": "Las Vegas Grand Prix",
+      "location": "Las Vegas, Nevada",
+      "country": "USA",
+      "circuit": "Las Vegas Street Circuit",
+      "date": "2025-11-22T06:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": true,
+      "circuitLength": 6.201,
+      "laps": 50
+    },
+    {
+      "round": 23,
+      "name": "Qatar Grand Prix",
+      "location": "Lusail",
+      "country": "Qatar",
+      "circuit": "Lusail International Circuit",
+      "date": "2025-11-30T15:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": true,
+      "circuitLength": 5.380,
+      "laps": 57
+    },
+    {
+      "round": 24,
+      "name": "Abu Dhabi Grand Prix",
+      "location": "Abu Dhabi",
+      "country": "UAE",
+      "circuit": "Yas Marina Circuit",
+      "date": "2025-12-07T13:00:00.000Z",
+      "status": "UPCOMING",
+      "hasSprint": false,
+      "circuitLength": 5.281,
+      "laps": 58
+    }
+  ]
+}
+

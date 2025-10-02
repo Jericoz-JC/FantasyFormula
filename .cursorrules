@@ -1,0 +1,190 @@
+# Fantasy Formula - F1 Prediction App
+ELO-powered F1 race prediction platform with mobile-first design
+
+## Tech Stack
+- Next.js 14 (App Router)
+- TypeScript (strict mode)
+- Tailwind CSS + shadcn/ui
+- Prisma + PostgreSQL (Supabase)
+- NextAuth.js for authentication
+- Vercel deployment
+
+## Project Structure
+/app                 # Next.js app router
+  /(auth)           # Auth routes (login, signup)
+  /(app)            # Main app routes
+    /dashboard      # User dashboard
+    /predict        # Race predictions
+    /leaderboard    # Global + friend rankings
+    /profile        # User profile
+  /api              # API routes
+/components
+  /ui               # shadcn components
+  /features         # Feature-specific components
+  /layout           # Layout components
+/lib
+  /db               # Prisma client
+  /auth             # Auth utilities
+  /elo              # ELO calculation engine
+  /api              # API utilities
+/prisma
+  schema.prisma     # Database schema
+/public             # Static assets
+
+## Design System
+
+### Mobile-First Approach
+- Design for 375px width first (iPhone SE)
+- Breakpoints: sm:640px, md:768px, lg:1024px
+- Bottom navigation for mobile
+- Thumb-friendly tap targets (min 44x44px)
+- Max-width containers: max-w-7xl
+
+### Racing-Inspired UI
+- Primary colors: Racing red (#DC0000), Carbon black (#1A1A1A)
+- Accent: Podium gold (#FFD700)
+- Fast animations: transition-all duration-200
+- Bold typography: font-bold for headers
+- Card-based layouts with subtle shadows
+
+### Typography
+- Headers: font-bold text-2xl to text-4xl
+- Body: text-base text-gray-700 dark:text-gray-300
+- Small text: text-sm text-gray-500
+
+### Component Patterns
+- Use shadcn/ui components as base
+- Consistent spacing: p-4, gap-4, space-y-4
+- Rounded corners: rounded-lg
+- Hover states: hover:bg-gray-100 transition-colors
+
+## Coding Standards
+
+### TypeScript
+- Use strict mode
+- No `any` types - use `unknown` and type guards
+- Define types in same file or dedicated types.ts
+- Use Zod for runtime validation
+
+### React/Next.js
+- Server components by default
+- Use 'use client' only when needed (interactivity, hooks)
+- Async server components for data fetching
+- No prop drilling - use React Context when needed
+- Named exports for components
+
+### Functions
+- Pure functions when possible
+- Descriptive names: `calculateEloRating` not `calcElo`
+- Single responsibility
+- Early returns for guard clauses
+- Use async/await, not .then()
+
+### Database (Prisma)
+- Use transactions for multi-step operations
+- Always include error handling
+- Use Prisma's type-safe queries
+- Include proper indexes in schema
+- Soft deletes where appropriate (deletedAt field)
+
+### API Routes
+- Use proper HTTP status codes
+- Return consistent JSON structure: { data, error, message }
+- Validate input with Zod
+- Handle errors gracefully
+- Rate limit sensitive endpoints
+
+### Authentication
+- Use NextAuth.js with JWT strategy
+- Protect routes with middleware
+- Store minimal user data in JWT
+- Use session for user state
+
+## File Naming
+- Components: PascalCase (UserProfile.tsx)
+- Utilities: camelCase (calculateElo.ts)
+- API routes: kebab-case (race-results.ts)
+- Types: PascalCase (User.ts, Race.ts)
+
+## What NOT to Do
+- Don't use inline styles
+- Don't skip error handling
+- Don't commit console.logs
+- Don't mutate props or state directly
+- Don't use var, only const and let
+- Don't skip loading states
+- Don't forget mobile responsiveness
+- Don't use hard-coded values (use constants)
+
+## ELO System Rules
+- Starting ELO: 1200
+- K-factor: 32 for new users (<10 races), 24 for experienced
+- Calculate expected score using standard ELO formula
+- Update ratings after each race completion
+- Store rating history for charts
+
+## Data Sources
+- Use OpenF1 API for real-time data
+- Fallback to Ergast API for historical data
+- Cache API responses (15 min for race data)
+- Update predictions deadline: 1 hour before session start
+
+## Performance
+- Use Next.js Image component
+- Implement loading skeletons
+- Lazy load heavy components
+- Use React Suspense for async components
+- Optimize database queries (include only needed fields)
+- Use CDN for static assets
+
+## Testing Approach
+- Write unit tests for ELO calculations
+- Test API routes with integration tests
+- Manual testing for UI components
+- Test on real mobile devices
+
+## Error Handling
+- Try-catch all async operations
+- Show user-friendly error messages
+- Log errors to console in development
+- Use error boundaries for React errors
+- Validate all user input
+
+## Security
+- Sanitize user input
+- Use parameterized queries (Prisma handles this)
+- Implement CSRF protection (NextAuth handles this)
+- Rate limit API endpoints
+- Don't expose internal errors to users
+
+## Accessibility
+- Use semantic HTML
+- Include alt text for images
+- Keyboard navigation support
+- ARIA labels where needed
+- Sufficient color contrast
+
+## Git Workflow
+- Feature branches: feature/prediction-form
+- Descriptive commits: "Add ELO calculation engine"
+- Squash before merging to main
+- Never commit .env files
+
+## Environment Variables
+- Use .env.local for local development
+- Document all env vars in .env.example
+- Never hardcode sensitive data
+
+## When Building Features:
+1. Check for similar patterns in codebase first
+2. Define types before implementation
+3. Build mobile view first, then desktop
+4. Add loading and error states
+5. Test on mobile viewport
+6. Update API documentation if adding endpoints
+
+## Tone
+- Comments: Explain "why", not "what"
+- Variable names: Clear and descriptive
+- Error messages: Helpful and actionable
+- UI copy: Friendly but professional

@@ -1,0 +1,55 @@
+{
+  "name": "fanstasyformula",
+  "version": "1.0.0",
+  "description": "A web app for formula 1 fans to rank and predict the Formula 1 grand prix and compete with their friends and all users on a new Foprmula one rank pdreiction ELO score.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "prisma:studio": "prisma studio",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jericoz-JC/FantasyFormula.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jericoz-JC/FantasyFormula/issues"
+  },
+  "homepage": "https://github.com/Jericoz-JC/FantasyFormula#readme",
+  "dependencies": {
+    "@prisma/client": "^6.16.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^24.6.2",
+    "@types/react": "^19.2.0",
+    "autoprefixer": "^10.4.21",
+    "bcryptjs": "^3.0.2",
+    "date-fns": "^4.1.0",
+    "next": "^15.5.4",
+    "next-auth": "^5.0.0-beta.29",
+    "postcss": "^8.5.6",
+    "prisma": "^6.16.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.14",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.9.3",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6"
+  }
+}

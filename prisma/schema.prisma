@@ -1,0 +1,147 @@
+// Prisma schema for Fantasy Formula F1 Ranking App
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  
+  // ELO and stats
+  eloRating      Int      @default(1200)
+  totalPoints    Int      @default(0)
+  rankingsCount  Int      @default(0)
+  
+  // Relations
+  rankings  Ranking[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([eloRating])
+  @@index([email])
+  @@index([username])
+}
+
+model Driver {
+  id           String  @id @default(uuid())
+  driverId     String  @unique  // e.g., "piastri", "norris"
+  name         String
+  abbreviation String  // e.g., "PIA", "NOR"
+  number       Int
+  team         String
+  nationality  String
+  country      String
+  
+  // Current standings
+  currentPoints    Int     @default(0)
+  currentPosition  Int     @default(0)
+  active           Boolean @default(true)
+  
+  // Team colors (JSON)
+  teamColors Json  // { primary: "#FF8000", secondary: "#000000", name: "Papaya Orange" }
+  
+  imageUrl   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([driverId])
+  @@index([team])
+}
+
+enum RaceStatus {
+  UPCOMING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Race {
+  id       String     @id @default(uuid())
+  name     String
+  location String
+  circuit  String
+  country  String
+  
+  date     DateTime
+  season   Int
+  round    Int
+  
+  status   RaceStatus @default(UPCOMING)
+  
+  // Race details
+  hasSprint     Boolean @default(false)
+  circuitLength Float?
+  laps          Int?
+  
+  // Lock time for rankings (default: 1 hour before race start)
+  lockTime DateTime
+  
+  // Relations
+  rankings    Ranking[]
+  raceResult  RaceResult?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([season, round])
+  @@index([status])
+  @@index([date])
+  @@index([season])
+}
+
+model Ranking {
+  id     String @id @default(uuid())
+  userId String
+  raceId String
+  
+  // User's pre-race driver rankings (all 20 drivers)
+  // { drivers: [{ position: 1, driverId: "piastri" }, { position: 2, driverId: "norris" }, ...] }
+  rankings Json
+  
+  // Scoring results (calculated after race)
+  eloChange       Int?  // ELO points gained/lost
+  score           Int?  // Total points scored
+  pointsBreakdown Json? // Detailed breakdown of points
+  
+  submittedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  race Race @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, raceId])
+  @@index([userId])
+  @@index([raceId])
+}
+
+model RaceResult {
+  id     String @id @default(uuid())
+  raceId String @unique
+  
+  // Final race results
+  // { 
+  //   finalPositions: [{ position: 1, driverId: "piastri", points: 25 }, ...],
+  //   fastestLap: "driverId",
+  //   dnfs: ["driverId"],
+  //   sprintResults: [{ position: 1, driverId: "..." }]
+  // }
+  results Json
+  
+  publishedAt DateTime @default(now())
+  
+  // Relations
+  race Race @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  
+  @@index([raceId])
+}
+
