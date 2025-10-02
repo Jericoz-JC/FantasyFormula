@@ -7,14 +7,14 @@ interface TeamBadgeProps {
 export function TeamBadge({ name, primary, secondary }: TeamBadgeProps) {
   return (
     <span
-      className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-xs font-medium"
+      className="inline-flex items-center gap-1 rounded-sm px-1.5 py-0.5 text-[10px] font-medium"
       style={{
-        backgroundColor: secondary ?? "transparent",
-        border: `1px solid ${primary}`,
+        backgroundColor: `${primary}16`, // subtle tint
         color: primary,
+        border: `1px solid ${primary}33`,
       }}
     >
-      <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: primary }} />
+      <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: primary }} />
       {name}
     </span>
   );

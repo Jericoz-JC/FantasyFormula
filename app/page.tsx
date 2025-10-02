@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import racesData from "@/lib/data/races.json";
 import { RankingComposer } from "@/components/features/ranking/RankingComposer";
+import { SessionSelector } from "@/components/features/ranking/SessionSelector";
 
 type RaceOption = {
   id: string;
@@ -18,9 +19,9 @@ type RaceOption = {
 export default function HomePage() {
   const [selected, setSelected] = useState<RaceOption | null>(null);
   const [options, setOptions] = useState<RaceOption[]>([]);
+  const [session, setSession] = useState<"grand_prix" | "sprint">("grand_prix");
 
   useEffect(() => {
-    // Build synthetic IDs from name+round since local races.json lacks IDs; UI-only selection
     const opts = (racesData as any).races.map((r: any) => ({
       id: `${r.name}-${r.round}`,
       name: r.name,
@@ -29,7 +30,7 @@ export default function HomePage() {
       date: r.date,
       round: r.round,
       hasSprint: r.hasSprint,
-      lockTime: r.date, // not used when disableLock
+      lockTime: r.date,
     }));
     setOptions(opts);
     setSelected(opts[0] ?? null);
@@ -40,10 +41,10 @@ export default function HomePage() {
       <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col gap-4 pt-4">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold">Rank Drivers</h1>
-          <p className="text-sm text-muted-foreground">Choose a remaining 2025 race or sprint and rank all 20 drivers below.</p>
+          <p className="text-sm text-muted-foreground">Pick a session and drag drivers into your finishing order. Mobile-first and fun.</p>
         </div>
 
-        <div className="rounded-lg border border-border bg-card p-4">
+        <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
           <label className="mb-2 block text-xs font-medium text-muted-foreground">Select session</label>
           <select
             className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
@@ -61,6 +62,9 @@ export default function HomePage() {
               {selected.location} • {new Date(selected.date).toLocaleString()} • {selected.country}
             </div>
           ) : null}
+          <div className="mt-3">
+            <SessionSelector hasSprint={selected?.hasSprint} onChange={setSession} />
+          </div>
         </div>
 
         <RankingComposer raceId={null} disableLock />
