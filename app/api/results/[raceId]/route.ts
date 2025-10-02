@@ -62,6 +62,7 @@ export async function POST(
           user: {
             select: {
               id: true,
+              username: true,
               eloRating: true,
               rankingsCount: true,
               totalPoints: true,
@@ -154,8 +155,8 @@ export async function POST(
       return NextResponse.json(
         {
           error: "Validation error",
-          message: error.errors[0].message,
-          details: error.errors,
+          message: error.issues[0].message,
+          details: error.issues,
         },
         { status: 400 }
       );
